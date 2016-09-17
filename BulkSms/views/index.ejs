@@ -1,11 +1,68 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title>Bulk SMS | Home</title>
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
+  <!--  <link href="https://fonts.googleapis.com/css?family=Lato:300,400|Montserrat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+--> <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
   </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
-</html>
+<body>
+  <br>
+  <br><br>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-10 col-xs-10 col-md-push-1 col-xs-push-1 content">
+        <div class="form">
+          <div class="col-md-5 col-xs-12 border-right">
+            <div class="recipient-holder">
+              <div class="form-group">
+                <label for="phone">Recipient</label>
+                <input type="text" class="form-control" id="recipients" placeholder="Comma separated">
+              </div>
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea class="form-control" rows="8" id="message" placeholder="Your Message"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12 border-left" style="margin-left:-1px;">
+            <div class="credential-holder">
+              <div class="row" class="credentials">
+                <div class="col-md-6 col-xs-6">
+                  <div class="form-group">
+                    <label for="usr">Username</label>
+                    <input type="number" class="form-control" max="999999999" id="uname-0">
+                  </div>
+                </div>
+                <div class="col-md-6 col-xs-6">
+                  <div class="form-group">
+                    <label for="pwd">Password</label>
+                    <input type="password" class="form-control" id="pwd-0">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <img src="images/select.png" id="add">
+            <img src="images/delete.png" id="sub">
+          </div>
+        </div>
+      </div>
+    </div>
+    <br><br>
+    <div class="row">
+      <p align="center">
+        <button class="custom-submit" onclick="submit();">Send Messages</button>
+      </p>
+    </div>
+  </div>
+</body>
+</HTML>
