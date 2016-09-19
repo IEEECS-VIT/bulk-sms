@@ -66,6 +66,8 @@ function submit()
     ratio=1;
   }
   var sent=0;
+  var complete;
+  alert("Bulk SMS job initiated ");
   for(i=0;sent+ratio<recpts;i = (i+1) % users)
   {
     var data={"username":user_list[i],"password":pwd_list[i],"mobile":recpt_list.slice(sent,sent+ratio),"message":msg}
@@ -77,9 +79,6 @@ function submit()
     var data={"username":user_list[0],"password":pwd_list[0],"mobile":recpt_list.slice(sent,recpts),"message":msg}
     ajax(data);
   }
-
-  //jaiganeshgod
-  //9403579446
 }
 
 function ajax(data)
