@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bulk SMS | Home</title>
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
+  <!--  <link href="https://fonts.googleapis.com/css?family=Lato:300,400|Montserrat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+--> <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="js/bootstrap.min.js"></script>
+  </head>
+<body>
+  <br>
+  <br><br>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-10 col-xs-10 col-md-push-1 col-xs-push-1 content">
+        <div class="form">
+          <div class="col-md-6 col-xs-12 border-right">
+            <div class="recipient-holder">
+              <span class="heading">LOGIN</span><br>
+              <form action="/login" method="POST">
+              <div class="form-group">
+                <label for="email">Recipient</label>
+                <input type="email" name="email" class="form-control" placeholder="Email">
+              </div>
+              <div class="form-group">
+                <label for="password">Recipient</label>
+                <input type="password" name="pwd" class="form-control" placeholder="password">
+              </div>
+              <p align="center">
+                <button type="submit" class="custom-submit">Login</button>
+              </p>
+              </form>
+            </div>
+          </div>
+          <div class="col-md-6 col-xs-12 border-left" style="margin-left:-1px;">
+            <div class="register-holder">
+              <span class="heading">REGISTER</span><br>
+              <form action="/register" method="POST">
+                <div class="form-group">
+                  <label for="name">Full Name</label>
+                  <input type="text" name="name" class="form-control" placeholder="Name">
+                </div>
+                <div class="form-group">
+                  <label for="email">Recipient</label>
+                  <input type="email" name="email" class="form-control" placeholder="Email">
+                </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="pwd" class="form-control"  placeholder="Password">
+              </div>
+              <div class="form-group">
+                <label for="phone">Contact Number</label>
+                <input type="text" name="number" class="form-control" placeholder="Phone">
+              </div>
+              <p align="center">
+                <button type="submit" class="custom-submit">Register</button>
+              </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br><br>
+    <div class="row">
+      <p align="center">
+      </p>
+    </div>
+  </div>
+</body>
+</HTML>
