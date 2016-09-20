@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Promise = require('bluebird');
 var User = require(require('path').join(__dirname, '..', 'models', 'user'));
+var passport = require('passport');
 //User Credential Addition Page Here
 router.route('/').get((req, res, next)=>{
   User.find({}, (err, users)=>{
@@ -42,4 +43,8 @@ router.route('/register')
     }).catch(next);
   })
 
+router.route('/login')
+  .post(passport.authenticate('local'), (req ,res)=>{
+    return res.redirect('/users');
+  });
 module.exports = router;

@@ -11,7 +11,7 @@ var dotenv = require('dotenv').config();
 var bluebird = require('bluebird');
 var mongoose = require('mongoose');
 var session = require('cookie-session');
-
+require(path.join(__dirname, 'utilities', 'configure-passport'))(passport);
 mongoose.Promise = bluebird;
 mongoose.connect(process.env.MONGODB_URI);
 

@@ -3,10 +3,10 @@ var User = require(require('path').join(__dirname, '..', 'models', 'user'));
 
 
 module.exports = (passport)=>{
-  var strategy = new LocalStrategy((username, password, done)=>{
+  var strategy = new LocalStrategy((email, password, done)=>{
     var user = null;
 
-    User.findById(username).then((result)=>{
+    User.findById(email).then((result)=>{
       if(!result){
         var error = new Error('User Not Found!');
         error.status = 401;
@@ -27,7 +27,7 @@ module.exports = (passport)=>{
     .catch(done);
   });
 
-  passport.user(strategy);
+  passport.use(strategy);
 
   passport.serializeUser((user, done)=>{
     return done(null, user._id);
