@@ -44,7 +44,7 @@ router.route('/register')
   })
 
 router.route('/login')
-  .post(passport.authenticate('local'), (req ,res)=>{
+  .post(passport.authenticate('local',{failureRedirect: '/'}), (req ,res)=>{
     return res.redirect('/users');
   });
 module.exports = router;
