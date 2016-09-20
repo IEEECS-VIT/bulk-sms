@@ -10,6 +10,7 @@ var users = require('./routes/users');
 var dotenv = require('dotenv');
 var bluebird = require('bluebird');
 var mongoose = require('mongoose');
+var session = require('cookie-session');
 
 mongoose.Promise = bluebird;
 mongoose.connect(process.env.MONGO_URL);
