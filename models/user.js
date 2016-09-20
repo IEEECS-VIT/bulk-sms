@@ -17,9 +17,9 @@ var User = new mongoose.Schema({
                           credential being the phone and pwd
                           of the Way2SMS numbers */
 });
-User.methods.comparePassword((enteredPassword)=>{
+User.methods.comparePassword = function(enteredPassword){
   return (bcrypt.compareAsync(enteredPassword, this.password))
-});
+};
 User.pre('save', (next)=>{
   if(!this.isModified('password'))
     return next();
