@@ -21,12 +21,11 @@ var User = new mongoose.Schema({
 User.methods.comparePassword = function(enteredPassword){
   return (bcrypt.compareAsync(enteredPassword, this.password))
 };
-User.pre('save', (next)=>{
+User.pre('save', function(next){
   var user = this;
   if(!user.isModified('password'))
     return next();
-
-  bcrypt.getSaltAsync(SALT)
+  bcrypt.genSaltAsync(SALT)
   .then((salt)=>{
     return bcrypt.hashAsync(user.password, salt);
   })

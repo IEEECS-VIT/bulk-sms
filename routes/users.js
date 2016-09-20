@@ -26,7 +26,7 @@ router.route('/register')
 
     }).then((response)=>{
       if(response){
-        let newUser = new User({
+        var newUser = new User({
           _id: req.body.email,
           password: req.body.password,
           name: req.body.name,
