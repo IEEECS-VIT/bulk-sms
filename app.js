@@ -21,7 +21,7 @@ app.use(passport.session());
 
 app.use(session({
   keys: ['keyboard', 'cat'],
-  secret = process.env.COOKIE_SECRET || 'secret',
+  secret: process.env.COOKIE_SECRET || 'secret',
   cookie: {
     secure: true,
     maxAge: 60000
