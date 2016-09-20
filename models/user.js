@@ -22,15 +22,16 @@ User.methods.comparePassword = function(enteredPassword){
   return (bcrypt.compareAsync(enteredPassword, this.password))
 };
 User.pre('save', (next)=>{
-  if(!this.isModified('password'))
+  var user = this;
+  if(!user.isModified('password'))
     return next();
 
   bcrypt.getSaltAsync(SALT)
   .then((salt)=>{
-    return bcrypt.hashAsync(this.password, salt);
+    return bcrypt.hashAsync(user.password, salt);
   })
   .then((hash)=>{
-    this.password = hash;
+    user.password = hash;
     next();
   })
   .catch(next);
