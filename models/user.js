@@ -12,8 +12,9 @@ var SALT = 2;
 var User = new mongoose.Schema({
   _id: String, //email of the user
   password: {type: String, required: true},
+  name: String,
   phone: Number,
-  credentialsStored: Array /* of _ids of each credential,
+  credentialsStored: Array, /* of _ids of each credential,
                           credential being the phone and pwd
                           of the Way2SMS numbers */
 });
