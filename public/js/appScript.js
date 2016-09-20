@@ -8,18 +8,12 @@ controllers.controller('mainController',function($scope)
   $scope.add=function()
   {
     $scope.users.push($scope.users.length+1);
-    alert($scope.users);
   }
   $scope.sub=function()
   {
     if($scope.users.length!=1)
     {
       $scope.users.pop();
-      alert($scope.users);
     }
-  }
-  $scope.submit=function()
-  {
-    alert('Form Submitted');
   }
 });
