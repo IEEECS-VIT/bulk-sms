@@ -9,7 +9,7 @@ body
   box-shadow: 0 0 10px rgba(0,0,0,0.4);
   padding: 30px;
 }
-input[type=text]:focus,input[type=number]:focus,input[type=password]:focus, #message:focus
+input[type=text]:focus,input[type=number]:focus,input[type=email]:focus,input[type=password]:focus, #message:focus
 {
   outline: 0;
   box-shadow:0 0 0 0;
@@ -51,4 +51,26 @@ input[type=text]:focus,input[type=number]:focus,input[type=password]:focus, #mes
   outline:none;
   border:none;
   background:white;
+}
+.heading
+{
+  font-size:200%;
+  font-weight: bold;
+}
+.invalid
+{
+  margin-top: 10px;
+  color: red;
+}
+.disabled{
+  box-shadow: none;
+  color: rgba(0,0,0,0.5);
+  border-color: rgba(0,0,0,0.5) !important;
+}
+@media(max-width)
+{
+  .border-right,.border-left
+  {
+    display: none;
+  }
 }
