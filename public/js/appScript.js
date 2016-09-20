@@ -29,3 +29,48 @@ controllers.controller('recipientDetailsController',function($scope)
     }
   });
 });
+
+//Papa Parse
+$(document).ready(function(){
+    $("#inputCsv").change(handleFileSelect);
+});
+
+function handleFileSelect(evt) {
+    //If file is absent
+    if ( !(evt.target && evt.target.files && evt.target.files[0]) ) {
+        alert('Fail');
+    }
+    //Parsing
+    Papa.parse(evt.target.files[0], {
+        header: true,
+        dynamicTyping: true,
+        complete: function (results) {
+            renderDataset(results);
+        },
+        error: function()
+        {
+          alert('Upload Failed');
+        }
+    });
+}
+
+function renderDataset(dataset)
+{
+    var recipientList="";
+    for(var i=0;i<dataset.data.length-1;i++)
+    {
+      //Making ',' separated list
+      recipientList=recipientList+JSON.stringify(dataset.data[i]["Participant Phone"])+",";
+    }
+    recipientList = recipientList.replace(/,$/, ''); //Removing Last ','
+    alert("Upload Successful");
+    change(recipientList)
+}
+
+function change(data) {
+    var appElement = document.querySelector('[ng-app=app]');
+    var $scope = angular.element(appElement).scope();
+    $scope.$apply(function() {
+        $scope.recptText = data;
+    });
+}
