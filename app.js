@@ -13,7 +13,6 @@ var mongoose = require('mongoose');
 var session = require('cookie-session');
 
 mongoose.Promise = bluebird;
-console.log(process.env.MONGO_URL);
 mongoose.connect(process.env.MONGO_URL);
 
 var app = express();
