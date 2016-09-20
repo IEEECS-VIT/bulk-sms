@@ -3,10 +3,10 @@ var User = require(require('path').join(__dirname, '..', 'models', 'user'));
 
 
 module.exports = (passport)=>{
-  var strategy = new LocalStrategy((email, password, done)=>{
+  var strategy = new LocalStrategy(function(username, password, done){
     var user = null;
 
-    User.findById(email).then((result)=>{
+    User.findById(username).then((result)=>{
       if(!result){
         var error = new Error('User Not Found!');
         error.status = 401;
