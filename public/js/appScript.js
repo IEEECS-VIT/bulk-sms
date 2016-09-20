@@ -1,7 +1,7 @@
 var app=angular.module('app',['controllers']);
 var controllers=angular.module('controllers',[]);
 
-controllers.controller('mainController',function($scope)
+controllers.controller('userDetailsController',function($scope)
 {
   $scope.phone_regex="^\\d{10}$";
   $scope.users=[1];
@@ -16,4 +16,16 @@ controllers.controller('mainController',function($scope)
       $scope.users.pop();
     }
   }
+});
+controllers.controller('recipientDetailsController',function($scope)
+{
+  $scope.recpt_regex="^\\d{10}(,\\d{10})*$";
+  $scope.recipients=[];
+  $scope.$watch('message',function(newVal,oldVal)
+  {
+    if(newVal.length>140)
+    {
+      $scope.message=oldVal;
+    }
+  });
 });

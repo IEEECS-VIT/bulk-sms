@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bulk SMS | Home</title>
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
+  <!--  <link href="https://fonts.googleapis.com/css?family=Lato:300,400|Montserrat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+--> <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="js/angular.min.js"></script>
+    <script src="js/appScript.js"></script>
+  </head>
+<body ng-app="app">
+  <br>
+  <br><br>
+  <div class="container-fluid" ng-controller="recipientDetailsController">
+    <div class="row">
+      <div class="col-md-8 col-xs-10 col-md-push-2 col-xs-push-1 content">
+        <form name="recptForm">
+            <div class="row">
+              <div class="col-md-6 col-xs-12 border-right">
+                <input type="radio" ng-value="true" ng-model="type" name="recipientType">&nbspMannually Enter Phone Numbers
+                <div class="form-group" ng-show="type">
+                  <label for="usr">Recipient List</label>
+                  <input type="text" name="recipientsNumber" ng-model="input.recptText" ng-pattern="recpt_regex" class="form-control" placeholder="Comma Separated" required>
+                  <span class="invalid" ng-show="recptForm.recipientsNumber.$error.pattern">Invalid</span>
+                </div>
+              </div>
+              <div class="col-md-6 col-xs-12 border-left" style="margin-left:-1px;">
+                <input type="radio" ng-value="false" ng-model="type" name="recipientType">&nbspUpload CSV file
+                <div class="form-group" ng-hide="type">
+                  <label for="pwd">Upload CSV File</label>
+                  <input type="file" name="recipientsFile" class="form-control" required>
+                </div>
+              </div>
+            </div>
+          </form>
+            <hr>
+            <div class="row">
+            <form name="recptSubmitForm" action="/recipients" method="POST">
+              <div class="col-md-8 col-md-push-2">
+                <div class="form-group" ng-hide="true">
+                  <input type="text" name="recipientsList" ng-model="input.recptText" ng-pattern="recpt_regex" class="form-control" required>
+                  <span class="invalid" ng-show="recptSubmitForm.recipientsList.$error.pattern"></span>
+                </div>
+                <div class="form-group">
+                  <label for="message">Message</label>
+                  <textarea class="form-control" ng-model="message" rows="8" id="message" placeholder="Your Message" required></textarea>
+                  <span>Characters Left: {{140-message.length}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    <br><br><br>
+    <p align="center">
+      <button class="custom-submit" ng-disabled="recptSubmitForm.$invalid" ng-class="{disabled:recptSubmitForm.$invalid}" type="submit">Next Step</button>
+    </p>
+  </form>
+  </div>
+</body>
+</HTML>
