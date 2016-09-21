@@ -20,23 +20,27 @@
     <div class="row">
       <div class="col-md-10 col-xs-10 col-md-push-1 col-xs-push-1 content">
           <div class="col-md-10">
-            <div class="form" ng-repeat="user in users">
-              <div class="row">
-                <div class="col-md-6 col-xs-12">
-                <div class="form-group">
-                  <label for="usr">Username</label>
-                  <input type="number" ng-model="input.usr" ng-pattern="phone_regex" id="" name="user{{user}}" class="form-control" placeholder="way2sms number" required>
-                 <div class="invalid" ng-show="userForm.user{{user}}.$error.pattern">Invalid</div>
+            <form method="POST" action="/users/addcredentials">
+              <div class="form" ng-repeat="user in users">
+                <div class="row">
+                  <div class="col-md-6 col-xs-12">
+                    <div class="form-group">
+                      <label for="usr">Username</label>
+                      <input type="number" ng-model="input.usr" ng-pattern="phone_regex" id="" name="user{{user}}" class="form-control" placeholder="way2sms number" required>
+                      <div class="invalid" ng-show="userForm.user{{user}}.$error.pattern">Invalid</div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-xs-12">
+                    <div class="form-group">
+                      <label for="pwd">Password</label>
+                      <input type="password" ng-model="input.pwd" name="pwd" class="form-control" placeholder="Password" required>
+                    </div>
+                  </div>
                 </div>
               </div>
-                <div class="col-md-6 col-xs-12">
-                <div class="form-group">
-                  <label for="pwd">Password</label>
-                  <input type="password" ng-model="input.pwd" name="pwd" class="form-control" placeholder="Password" required>
-                </div>
-              </div>
-              </div>
-            </div>
+              <input type="text" name="length" value="{{usersTotal}}" style="display: none">
+          </form>
+          </div>
           </div>
           <div class="col-md-1">
             <img src="images/select.png" id="add" ng-click="add();">

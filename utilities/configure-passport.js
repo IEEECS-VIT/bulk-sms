@@ -5,7 +5,6 @@ var User = require(require('path').join(__dirname, '..', 'models', 'user'));
 module.exports = (passport)=>{
   var strategy = new LocalStrategy(function(username, password, done){
     var user = null;
-
     User.findById(username).then((result)=>{
       if(!result){
         var error = new Error('User Not Found!');
@@ -14,7 +13,6 @@ module.exports = (passport)=>{
       }
       user = result;
       return user.comparePassword(password);
-
     })
     .then((match)=>{
       if(!match){

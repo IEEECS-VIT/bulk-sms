@@ -5,6 +5,7 @@ var User = require(require('path').join(__dirname, '..', 'models', 'user'));
 var passport = require('passport');
 //User Credential Addition Page Here
 router.route('/').get((req, res, next)=>{
+  //console.log(req.session.user);
   User.find({}, (err, users)=>{
     res.json(users);
   })
@@ -44,7 +45,30 @@ router.route('/register')
   })
 
 router.route('/login')
-  .post(passport.authenticate('local',{failureRedirect: '/'}), (req ,res)=>{
-    return res.redirect('/users');
+  .post(passport.authenticate('local',{failureRedirect: '/'}), (req ,res, next)=>{
+    req.session.user = req.user;
+    res.redirect('/users');
   });
+router.route('/logout')
+  .get((req, res, next)=>{
+    req.logout();
+    res.clearCookie();
+    req.session.user = req.user;
+    return res.redirect('/');
+  })
+
+router.route('addcredentials')
+  .get((req, res, next)=>{
+    if(req.session.user)
+      req.render('details');
+    else {
+      var error = new Error('Not Logged In!');
+      error.status = 401;
+      throw error;
+    }
+  })
+  .post((req, res, next)=>{
+    var user = req.session.user;
+    User.find(user.id)
+  })
 module.exports = router;

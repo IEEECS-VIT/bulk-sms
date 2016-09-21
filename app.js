@@ -11,23 +11,12 @@ var dotenv = require('dotenv').config();
 var bluebird = require('bluebird');
 var mongoose = require('mongoose');
 var session = require('cookie-session');
+
 require(path.join(__dirname, 'utilities', 'configure-passport'))(passport);
 mongoose.Promise = bluebird;
 mongoose.connect(process.env.MONGODB_URI);
 
 var app = express();
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use(session({
-  keys: ['keyboard', 'cat'],
-  secret: process.env.COOKIE_SECRET || 'secret',
-  cookie: {
-    secure: true,
-    maxAge: 60000
-  }
-}))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,10 +25,21 @@ app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(passport.initialize());
+app.use(cookieParser(process.env.COOKIE_SECRET || 'secret'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  keys: ['keyboard', 'cat'],
+  secret: process.env.COOKIE_SECRET || 'secret',
+  cookie: {
+    secure: true/*,
+    expires: new Date( 5 * Date.now() + 60 * 60 * 1000 )*/
+  }
+}))
+app.use(passport.session());
 
 app.use('/', routes);
 app.use('/users', users);
