@@ -2,25 +2,24 @@
 <html>
   <head>
     <title>Bulk SMS | Home</title>
-    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
-    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
   <!--  <link href="https://fonts.googleapis.com/css?family=Lato:300,400|Montserrat" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 --> <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="js/angular.min.js"></script>
-    <script src="js/appScript.js"></script>
+    <script src="/js/angular.min.js"></script>
+    <script src="/js/appScript.js"></script>
   </head>
 <body ng-app="app">
   <br>
   <br><br>
   <div class="container-fluid" ng-controller="userDetailsController">
-  <form name="userForm" action="/user" method="POST" ng-submit="submit();">
+  <form name="userForm" action="/users/addcredentials" method="POST" ng-submit="submit();">
     <div class="row">
       <div class="col-md-10 col-xs-10 col-md-push-1 col-xs-push-1 content">
           <div class="col-md-10">
-            <form method="POST" action="/users/addcredentials">
               <div class="form" ng-repeat="user in users">
                 <div class="row">
                   <div class="col-md-6 col-xs-12">
@@ -38,13 +37,12 @@
                   </div>
                 </div>
               </div>
-              <input type="text" name="length" value="{{usersTotal}}" style="display: none">
-          </form>
+              <input type="text" name="length" value="{{userCount}}" style="display: none">
           </div>
           </div>
           <div class="col-md-1">
-            <img src="images/select.png" id="add" ng-click="add();">
-            <img src="images/delete.png" id="sub" ng-click="sub();">
+            <img src="/images/select.png" id="add" ng-click="add();">
+            <img src="/images/delete.png" id="sub" ng-click="sub();">
           </div>
       </div>
     </div>

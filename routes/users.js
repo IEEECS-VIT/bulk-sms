@@ -57,10 +57,10 @@ router.route('/logout')
     return res.redirect('/');
   })
 
-router.route('addcredentials')
+router.route('/addcredentials')
   .get((req, res, next)=>{
     if(req.session.user)
-      req.render('details');
+      res.render('details');
     else {
       var error = new Error('Not Logged In!');
       error.status = 401;
@@ -69,6 +69,15 @@ router.route('addcredentials')
   })
   .post((req, res, next)=>{
     var user = req.session.user;
-    console.log(req.body);
+    for(var i = 0;i<req.body.length; i++){
+      var phonei = req.body['user' + (i+1)];
+      var pwdi = req.body['pwd' + (i+1)];
+      var credentials = {
+        'phone': phonei,
+        'pwd': pwdi
+      }
+      User.findByIdAndUpdate(user._id, {$push: {'credentialsStored': credentials}}, {'new': true});
+    }
+    res.redirect('/users');
   })
 module.exports = router;
