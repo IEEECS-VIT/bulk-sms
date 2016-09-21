@@ -35,8 +35,8 @@ app.use(session({
   keys: ['keyboard', 'cat'],
   secret: process.env.COOKIE_SECRET || 'secret',
   cookie: {
-    secure: true/*,
-    expires: new Date( 5 * Date.now() + 60 * 60 * 1000 )*/
+    secure: true,
+    expires: new Date( 5 * Date.now() + 60 * 60 * 1000 )
   }
 }))
 app.use(passport.session());

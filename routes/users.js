@@ -69,6 +69,6 @@ router.route('addcredentials')
   })
   .post((req, res, next)=>{
     var user = req.session.user;
-    User.find(user.id)
+    console.log(req.body);
   })
 module.exports = router;
