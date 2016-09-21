@@ -67,6 +67,8 @@ function renderDataset(dataset)
     }
     recipientList = recipientList.replace(/,$/, ''); //Removing Last ','
     alert("Upload Successful");
+    console.log("Array Of Phone Numbers:")
+    console.log(recipientList);
     change(recipientList)
 }
 
