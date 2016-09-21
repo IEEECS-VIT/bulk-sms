@@ -14,7 +14,7 @@ var User = new mongoose.Schema({
   password: {type: String, required: true},
   name: String,
   phone: Number,
-  credentialsStored: Array, /* of _ids of each credential,
+  credentialsStored: [Object], /* of _ids of each credential,
                           credential being the phone and pwd
                           of the Way2SMS numbers */
 });
