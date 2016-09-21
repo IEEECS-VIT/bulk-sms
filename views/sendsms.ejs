@@ -2,28 +2,29 @@
 <html>
   <head>
     <title>Bulk SMS | Home</title>
-    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
-    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
   <!--  <link href="https://fonts.googleapis.com/css?family=Lato:300,400|Montserrat" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 --> <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="js/angular.min.js"></script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/papaparse.min.js"></script>
-    <script src="js/appScript.js"></script>
+    <script src="/js/angular.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/papaparse.min.js"></script>
+    <script src="/js/appScript.js"></script>
   </head>
 <body ng-app="app">
   <br>
   <br><br>
+  <%include partials/navbar.ejs%>
   <div class="container-fluid" ng-controller="recipientDetailsController" id="cntrl">
     <div class="row">
       <div class="col-md-8 col-xs-10 col-md-push-2 col-xs-push-1 content">
         <form name="recptForm">
             <div class="row">
               <div class="col-md-6 col-xs-12 border-right">
-                <input type="radio" ng-value="true" ng-model="type" name="recipientType">&nbspMannually Enter Phone Numbers
+                <input type="radio" ng-value="true" ng-model="type" name="recipientType">&nbspManually Enter Phone Numbers
                 <div class="form-group" ng-show="type">
                   <label for="usr">Recipient List</label>
                   <input type="text" name="recipientsNumber" ng-model="recptText" ng-pattern="recpt_regex" class="form-control" placeholder="Comma Separated" required>
@@ -41,14 +42,14 @@
           </form>
             <hr>
             <div class="row">
-            <form name="recptSubmitForm" action="/recipients" method="POST">
+            <form name="recptSubmitForm" action="/users/sendsms" method="POST">
               <div class="col-md-8 col-md-push-2">
                 <div class="form-group" ng-hide="true">
                   <input type="text" name="recipientsList" id="recipientList" ng-model="recptText" class="form-control" required>
                 </div>
                 <div class="form-group">
                   <label for="message">Message</label>
-                  <textarea class="form-control" ng-model="message" rows="8" id="message" placeholder="Your Message" required></textarea>
+                  <textarea class="form-control" ng-model="message" rows="8" name="message" id="message" placeholder="Your Message" required></textarea>
                   <span>Characters Left: {{140-message.length}}</span>
                 </div>
               </div>

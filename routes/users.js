@@ -3,13 +3,7 @@ var router = express.Router();
 var Promise = require('bluebird');
 var User = require(require('path').join(__dirname, '..', 'models', 'user'));
 var passport = require('passport');
-//User Credential Addition Page Here
-router.route('/').get((req, res, next)=>{
-  //console.log(req.session.user);
-  User.find({}, (err, users)=>{
-    res.json(users);
-  })
-});
+var requestify = require('requestify');
 
 router.route('/register')
   .post((req, res, next)=>{
@@ -40,14 +34,14 @@ router.route('/register')
         ])
       }
     }).then(()=>{
-      res.redirect('/users');
+      res.render('login', {loggedIn: req.session.user !== null});
     }).catch(next);
   })
 
 router.route('/login')
   .post(passport.authenticate('local',{failureRedirect: '/'}), (req ,res, next)=>{
     req.session.user = req.user;
-    res.redirect('/users');
+    res.redirect('/');
   });
 router.route('/logout')
   .get((req, res, next)=>{
@@ -60,7 +54,7 @@ router.route('/logout')
 router.route('/addcredentials')
   .get((req, res, next)=>{
     if(req.session.user)
-      res.render('details');
+      res.render('details', {loggedIn: req.session.user !== null});
     else {
       var error = new Error('Not Logged In!');
       error.status = 401;
@@ -74,10 +68,53 @@ router.route('/addcredentials')
       var pwdi = req.body['pwd' + (i+1)];
       var credentials = {
         'phone': phonei,
-        'pwd': pwdi
+        'password': pwdi
       }
-      User.findByIdAndUpdate(user._id, {$push: {'credentialsStored': credentials}}, {'new': true});
+      User.update({_id: user._id}, {$push: {'credentialsStored': credentials}}, {'new': true}, function(err, added){
+        if(err){
+          console.log(err);
+        } else{
+          console.log('Pushed');
+        }
+      });
     }
-    res.redirect('/users');
+    res.send('Credentials Stored');
+  })
+
+router.route('/sendsms')
+  .get((req, res, next)=>{
+    if(req.session.user != null){
+      res.render('sendsms', {loggedIn: true});
+    } else{
+      var error = new Error('Not Logged In!');
+      error.status = 401;
+      throw error;
+    }
+  })
+  .post((req, res, next)=>{
+    if(req.session.user){
+      var user = req.session.user;
+      var credentials = user.credentialsStored;
+      var message = req.body.message;
+      var recipients = req.body.recipientsList;
+
+      /*
+      requestify.post('https://way2smsapi.herokuapp.com/send', {
+        'username': username,
+        'password': password,
+        'mobile': ['9726153535', '9998383729', '9943640733'],
+        'message': message
+      })
+      .then(function(response){
+        response.getBody();
+        console.log(response);
+      });
+      */
+    }
+    else {
+      var error = new Error('Not Logged In!');
+      error.status = 401;
+      throw error;
+    }
   })
 module.exports = router;

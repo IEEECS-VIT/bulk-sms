@@ -14,9 +14,10 @@ var User = new mongoose.Schema({
   password: {type: String, required: true},
   name: String,
   phone: Number,
-  credentialsStored: [Object], /* of _ids of each credential,
-                          credential being the phone and pwd
-                          of the Way2SMS numbers */
+  credentialsStored: [{
+    phone: Number,
+    password: {type: String, required: true}
+  }], /* Credentials Array*/
 });
 User.methods.comparePassword = function(enteredPassword){
   return (bcrypt.compareAsync(enteredPassword, this.password))
