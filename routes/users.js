@@ -96,20 +96,36 @@ router.route('/sendsms')
       var user = req.session.user;
       var credentials = user.credentialsStored;
       var message = req.body.message;
-      var recipients = req.body.recipientsList;
-
-      /*
-      requestify.post('https://way2smsapi.herokuapp.com/send', {
-        'username': username,
-        'password': password,
-        'mobile': ['9726153535', '9998383729', '9943640733'],
-        'message': message
-      })
-      .then(function(response){
-        response.getBody();
-        console.log(response);
-      });
-      */
+      var recipients = req.body.recipientsList.split(',');
+      var smsPerAccount = recipients.length / credentials.length;
+      var index = 0;
+      for(var i=0;i<credentials.length;i++){
+        requestify.post('https://way2smsapi.herokuapp.com/send', {
+          'username': credentials[i].phone,
+          'password': credentials[i].password,
+          'mobile': recipients.slice(index, index + smsPerAccount),
+          'message': message
+        })
+        .then(function(response){
+          response.getBody();
+          console.log(response);
+        });
+        index += smsPerAccount;
+      }
+      /*var remainingSMS = [];
+      console.log('Connecting To Way2SMS');
+      for(var i in credentials){
+        requestify.post('https://way2smsapi.herokuapp.com/login', {
+          'username': credentials[i].phone,
+          'password': credentials[i].password
+        })
+        .then(function(response){
+          if(response.body.message==="Logged In Successfully"){
+            remainingSMS.push(response.body.sent);
+            console.log(remainingSMS);
+          }
+        });
+      }*/
     }
     else {
       var error = new Error('Not Logged In!');
