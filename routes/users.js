@@ -106,17 +106,17 @@ router.route('/sendsms')
       var user = req.session.user;
       var credentials = user.credentialsStored;
       var message = req.body.message;
-      var recipients = req.body.recipientsList.split(',');
-      var smsPerAccount = recipients.length / credentials.length;
+      var recipientsList = req.body.recipientsList.split(',');
+      var smsPerAccount = recipientsList.length / credentials.length;
       if(smsPerAccount > 25){
         res.send('Free Quota Violation. Please Add More Credentials And Try Again!');
       }
       var index = 0;
-      /*for(var i=0;i<credentials.length;i++){
+      for(var i=0;i<credentials.length;i++){
         requestify.post('https://way2smsapi.herokuapp.com/send', {
           'username': credentials[i].phone,
           'password': credentials[i].password,
-          'mobile': recipients.slice(index, index + smsPerAccount),
+          'mobile': recipientsList.slice(index, index + smsPerAccount),
           'message': message
         })
         .then(function(response){
@@ -125,8 +125,15 @@ router.route('/sendsms')
         })
         .catch(next);
         index += smsPerAccount;
-      }*/
-      var remainingSMS = [];
+      }
+      var smsData = new smsHistory({
+        sentFrom: req.session.user._id,
+        recipients: recipientsList,
+        when: new Date(),
+        message: req.body.message
+      })
+      smsData.save();
+      /*var remainingSMS = [];
       for(var i in credentials){
         requestify.post('https://way2smsapi.herokuapp.com/login', {
           'username': credentials[i].phone,
@@ -140,8 +147,8 @@ router.route('/sendsms')
           }
         })
         .catch(next);
-      }
-      res.send(remainingSMS);
+      }*/
+      //res.send(remainingSMS);
     }
     else {
       var error = new Error('Not Logged In!');
