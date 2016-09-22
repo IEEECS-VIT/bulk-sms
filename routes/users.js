@@ -4,6 +4,7 @@ var Promise = require('bluebird');
 var User = require(require('path').join(__dirname, '..', 'models', 'user'));
 var passport = require('passport');
 var requestify = require('requestify');
+var smsHistory = require(require('path').join(__dirname, '..', 'models', 'smsHistory'));
 
 router.route('/register')
   .post((req, res, next)=>{
@@ -80,6 +81,15 @@ router.route('/addcredentials')
     }
     res.send('Credentials Stored');
   })
+router.get('/viewcredentials', (req, res, next)=>{
+  User.findById(req.session.user._id, (err, user)=>{
+    if(err){
+      console.log(err);
+    } else{
+      res.render('viewcredentials', {loggedIn: req.session.user !== null, credentials: user.credentialsStored});
+    }
+  })
+})
 
 router.route('/sendsms')
   .get((req, res, next)=>{
@@ -99,11 +109,10 @@ router.route('/sendsms')
       var recipients = req.body.recipientsList.split(',');
       var smsPerAccount = recipients.length / credentials.length;
       if(smsPerAccount > 25){
-        res.send('Free Quota Violation.Please Add More Credentials And Try Again!');
+        res.send('Free Quota Violation. Please Add More Credentials And Try Again!');
       }
       var index = 0;
-      for(var i=0;i<credentials.length;i++){
-        console.log('Inside');
+      /*for(var i=0;i<credentials.length;i++){
         requestify.post('https://way2smsapi.herokuapp.com/send', {
           'username': credentials[i].phone,
           'password': credentials[i].password,
@@ -113,24 +122,26 @@ router.route('/sendsms')
         .then(function(response){
           response.getBody();
           console.log(response);
-        });
+        })
+        .catch(next);
         index += smsPerAccount;
-      }
-      /*var remainingSMS = [];
-      console.log('Connecting To Way2SMS');
+      }*/
+      var remainingSMS = [];
       for(var i in credentials){
         requestify.post('https://way2smsapi.herokuapp.com/login', {
           'username': credentials[i].phone,
           'password': credentials[i].password
         })
         .then(function(response){
-          if(response.body.message==="Logged In Successfully"){
-            remainingSMS.push(response.body.sent);
-            console.log(remainingSMS);
+          var resp = JSON.stringify(eval('('+response.body+')'));
+          resp = JSON.parse(resp);
+          if(resp.message === "Logged In Successfully"){
+            remainingSMS.push(25 - (+resp.sent));
           }
-        });
-      }*/
-      res.send('SMS Sent!');
+        })
+        .catch(next);
+      }
+      res.send(remainingSMS);
     }
     else {
       var error = new Error('Not Logged In!');
