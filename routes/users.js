@@ -98,8 +98,12 @@ router.route('/sendsms')
       var message = req.body.message;
       var recipients = req.body.recipientsList.split(',');
       var smsPerAccount = recipients.length / credentials.length;
+      if(smsPerAccount > 25){
+        res.send('Free Quota Violation.Please Add More Credentials And Try Again!');
+      }
       var index = 0;
       for(var i=0;i<credentials.length;i++){
+        console.log('Inside');
         requestify.post('https://way2smsapi.herokuapp.com/send', {
           'username': credentials[i].phone,
           'password': credentials[i].password,
@@ -126,6 +130,7 @@ router.route('/sendsms')
           }
         });
       }*/
+      res.send('SMS Sent!');
     }
     else {
       var error = new Error('Not Logged In!');
