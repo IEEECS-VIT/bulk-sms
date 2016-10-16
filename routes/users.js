@@ -72,30 +72,24 @@ router.route('/addcredentials')
         'password': pwdi
       }
       User.update({_id: user._id}, {$push: {'credentialsStored': credentials}}, {'new': true}, function(err, added){
-        if(err){
-          console.log(err);
-        } else{
-          console.log('Pushed');
-        }
+        if(err) console.log(err);
       });
     }
+    User.findById(user._id, (err, doc)=>{
+      user.credentialsStored = doc.credentialsStored;
+      req.login(user, (err)=> {if(err) console.log(err)});
+    })
     res.send('Credentials Stored');
   })
 router.get('/viewcredentials', (req, res, next)=>{
-  User.findById(req.session.user._id, (err, user)=>{
-    if(err){
-      console.log(err);
-    } else{
-      res.render('viewcredentials', {loggedIn: req.session.user !== null, credentials: user.credentialsStored});
-    }
-  })
+  res.render('viewcredentials', {loggedIn: req.session.user !== null, credentials: req.session.user.credentialsStored});
 })
 
 router.route('/sendsms')
   .get((req, res, next)=>{
-    if(req.session.user != null){
+    if(req.session.user) {
       res.render('sendsms', {loggedIn: true});
-    } else{
+    } else {
       var error = new Error('Not Logged In!');
       error.status = 401;
       throw error;
@@ -105,6 +99,9 @@ router.route('/sendsms')
     if(req.session.user){
       var user = req.session.user;
       var credentials = user.credentialsStored;
+      if(credentials.length == 0) {
+        res.send("Add some Credentials before sending messages. Please?");
+      }
       var message = req.body.message;
       var recipientsList = req.body.recipientsList.split(',');
       var smsPerAccount = recipientsList.length / credentials.length;
@@ -126,14 +123,14 @@ router.route('/sendsms')
         .catch(next);
         index += smsPerAccount;
       }
-      var smsData = new smsHistory({
+      /*var smsData = new smsHistory({
         sentFrom: req.session.user._id,
         recipients: recipientsList,
         when: new Date(),
         message: req.body.message
       })
       smsData.save();
-      /*var remainingSMS = [];
+      var remainingSMS = [];
       for(var i in credentials){
         requestify.post('https://way2smsapi.herokuapp.com/login', {
           'username': credentials[i].phone,
@@ -148,7 +145,8 @@ router.route('/sendsms')
         })
         .catch(next);
       }*/
-      //res.send(remainingSMS);
+      // res.send(remainingSMS);
+      res.send("Job Requested");
     }
     else {
       var error = new Error('Not Logged In!');
